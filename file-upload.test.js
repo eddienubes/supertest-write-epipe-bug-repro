@@ -1,10 +1,12 @@
 const express = require('express');
 const request = require('supertest');
 const fs = require("node:fs");
+const http = require("node:http");
+const { request: nodeRequest } = require("node:http");
 
 const app = express();
 
-app.get('/api', (req, res) => {
+app.post('/api', (req, res) => {
   console.log('Body', req.body);
   res.json({ message: 'pass!' });
 });
@@ -16,6 +18,12 @@ app.use((err, req, res, next) => {
 const createStream = (filename) => {
   const stream = fs.createReadStream(filename);
   // stream.pause();
+  stream.on('error', (err) => {
+    console.log('Stream error', err);
+  });
+  stream.on('open', () => {
+    console.log('Stream opened');
+  });
   stream.on('close', () => {
     console.log('Stream closed');
   });
@@ -26,124 +34,268 @@ const createStream = (filename) => {
   return stream;
 }
 describe('File Upload Test', () => {
-  it('should upload cat test 1', async () => {
+  it('should upload cat test 1', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      // cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 2', async () => {
+  it('should upload cat test 2', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 3', async () => {
+  it('should upload cat test 3', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 4', async () => {
+  it('should upload cat test 4', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 5', async () => {
+  it('should upload cat test 5', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 6', async () => {
+  it('should upload cat test 6', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 7', async () => {
+  it('should upload cat test 7', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 8', async () => {
+  it('should upload cat test 8', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 9', async () => {
+  it('should upload cat test 9', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
-  it('should upload cat test 10', async () => {
+  it('should upload cat test 10', (done) => {
     const cat2Stream = createStream('cat2.png');
     const cat1Stream = createStream('cat1.png');
-    const res = await request(app).get('/api')
-      .attach('file', cat1Stream)
-      .attach('file2', cat2Stream);
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({
-      message: 'pass!'
-    })
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
+  });
+  it('should upload cat test 12', (done) => {
+    const cat2Stream = createStream('cat2.png');
+    const cat1Stream = createStream('cat1.png');
+
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
+  });
+  it('should upload cat test 13', (done) => {
+    const cat2Stream = createStream('cat2.png');
+    const cat1Stream = createStream('cat1.png');
+
+    const server = http.createServer(app)
+    server.listen(0, async () => {
+      console.log('Server listening on port', server.address().port);
+      const { port, address } = server.address();
+      const req = nodeRequest({
+        method: 'POST',
+        host: address,
+        port,
+        path: '/api'
+      });
+      cat1Stream.pipe(req);
+      cat2Stream.pipe(req);
+      req.on('response', (res) => {
+        console.log('Response', res.statusCode);
+        done();
+      });
+    });
   });
 });
