@@ -68,7 +68,9 @@ describe('File Upload Test', () => {
         method: 'POST',
         host: address,
         port,
-        path: '/api'
+        agent: false,
+        path: '/api',
+        rejectUnauthorized: false
       });
       cat1Stream.pipe(req);
       cat2Stream.pipe(req);
