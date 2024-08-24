@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require("node:fs");
 const fsPromises = require("node:fs/promises");
 const http = require("node:http");
-const { request } = require("node:http");
+const { request: nodeRequest } = require("node:http");
 
 const app = express();
 
